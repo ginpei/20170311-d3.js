@@ -1,4 +1,4 @@
-module.exports = [
+export default [
 	{date:'2007-05-01', value:129.47},
 	{date:'2007-06-01', value:118.4},
 	{date:'2007-07-01', value:121.26},
