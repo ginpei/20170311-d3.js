@@ -8,9 +8,8 @@ export default class SimpleLineChart extends ChartBase {
 	}
 
 	start() {
-		var sizes = getSizes();
-		var width = sizes.baseWidth;
-		var height = sizes.baseHeight;
+		var width = this.width;
+		var height = this.height;
 
 		// something
 		// to convert values to coordinates
@@ -44,20 +43,4 @@ export default class SimpleLineChart extends ChartBase {
 			.style('stroke', '#000')
 			.attr('d', line);
 	}
-}
-
-function getSizes() {
-	var sizes = {
-		baseHeight: 300,
-		margin: {
-			bottom: 30,
-			left: 50,
-			right: 20,
-			top: 20,
-		},
-		baseWidth: 650,
-	};
-	sizes.height = sizes.baseHeight - sizes.margin.top - sizes.margin.bottom;
-	sizes.width = sizes.baseWidth - sizes.margin.left - sizes.margin.right;
-	return sizes;
 }
