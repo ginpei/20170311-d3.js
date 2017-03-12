@@ -1,15 +1,31 @@
 import ChartBase from './chart-base.js';
 
 const d3 = require('d3');
+const moment = require('moment');
 
 export default class SpiralTimeChart extends ChartBase {
 	constructor(options) {
 		super(options);
+
+		this.convertDate(options.data);
+		this.sideLength = Math.min(this.width, this.height);
+	}
+
+	/**
+	 * Convert date time string to Date object.
+	 *
+	 * @param {Array} data Original data. Destructive.
+	 * @param {string} data[].datetime Date and time in string.
+	 * @returns {Array} data Original data.
+	 */
+	convertDate(data) {
+		data.forEach(d=>d.date = new moment(d.datetime));
+		return data;
 	}
 
 	start() {
-		const line = this.generateLine(this.data, this.width, this.height);
-		const svg = this.generateSvg(this.element, this.width, this.height);
+		const line = this.generateLine(this.data, this.sideLength);
+		const svg = this.generateSvg(this.element, this.sideLength);
 
 		svg.append('path')
 			.datum(this.data)
@@ -18,32 +34,61 @@ export default class SpiralTimeChart extends ChartBase {
 
 	/**
 	 * @param {Array} data
-	 * @param {number} width
-	 * @param {number} height
+	 * @param {number} sideLength
 	 */
-	generateLine(data, width, height) {
-		var fx = d3.scaleTime()
-			.range([0, width])
-			.domain(d3.extent(data, d=>d.date));
+	generateLine(data, sideLength) {
+		const spiralPositionF = (funcName)=>{
+			const fullDegree = Math.PI * 2;
+			const offsetDegree = fullDegree / -4;
 
-		var fy = d3.scaleLinear()
-			.range([height, 0])
-			.domain(d3.extent(data, d=>d.value));
+			const center = sideLength / 2;
+			const dataLength = data.length;
+			const rollings = this.countDates(data);
+
+			const wholeDegree = fullDegree * rollings;
+
+			return (d, index)=> {
+				const progress = (dataLength - (index + 1)) / dataLength;
+				const radius = center * progress;
+				const degree = wholeDegree * progress + offsetDegree;
+				return center + radius * Math[funcName](degree);
+			};
+		}
 
 		return d3.line()
-			.x(d=>fx(d.date))
-			.y(d=>fy(d.value));
+			.x(spiralPositionF('cos'))
+			.y(spiralPositionF('sin'));
+	}
+
+	/**
+	 * Count how many dates are.
+	 *
+	 * @param {Array} data
+	 * @param {String} data
+	 * @returns {number}
+	 */
+	countDates(data) {
+		let min = data[0].date;
+		let max = data[0].date;
+		data.forEach(d=>{
+			if (d.date < min) {
+				min = d.date;
+			}
+			if (d.date > max) {
+				max = d.date;
+			}
+		});
+		return max.diff(min, 'days') + 1;
 	}
 
 	/**
 	 * @param {d3 element} element
-	 * @param {number} width
-	 * @param {number} height
+	 * @param {number} sideLength
 	 */
-	generateSvg(element, width, height) {
+	generateSvg(element, sideLength) {
 		return element.append('svg')
-			.attr('width', width)
-			.attr('height', height)
+			.attr('width', sideLength)
+			.attr('height', sideLength)
 			.style('fill', 'none')
 			.style('stroke', '#000');
 	}
