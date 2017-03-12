@@ -16,6 +16,11 @@ export default class SimpleLineChart extends ChartBase {
 			.attr('d', line);
 	}
 
+	/**
+	 * @param {Array} data
+	 * @param {number} width
+	 * @param {number} height
+	 */
 	generateLine(data, width, height) {
 		var fx = d3.scaleTime()
 			.range([0, width])
@@ -30,6 +35,11 @@ export default class SimpleLineChart extends ChartBase {
 			.y(d=>fy(d.value));
 	}
 
+	/**
+	 * @param {d3 element} element
+	 * @param {number} width
+	 * @param {number} height
+	 */
 	generateSvg(element, width, height) {
 		return element.append('svg')
 			.attr('width', width)
