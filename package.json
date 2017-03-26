@@ -2,9 +2,9 @@
   "private": "true",
   "scripts": {
     "build": "npm run test && npm run js && echo Built!",
-    "js": "browserify -t [ babelify --presets [ es2015 ] ] src/main.js -o out/app.js",
+    "js": "browserify -t [ babelify ] src/main.js -o out/app.js",
     "start": "npm run build -s; echo Watching...; npm run watch -s",
-    "test": "mochify --transform [ babelify --presets [ es2015 ] ]",
+    "test": "mocha",
     "watch": "chokidar --silent src/**/* ./test/**/* -c 'echo ! && npm run build'"
   },
   "dependencies": {
@@ -12,6 +12,7 @@
     "babelify": "^7.3.0",
     "browserify": "^14.1.0",
     "d3": "^4.7.2",
+    "jsdom": "^9.12.0",
     "moment": "^2.17.1"
   },
   "devDependencies": {

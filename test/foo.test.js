@@ -2,6 +2,7 @@ import SpiralTimeChart from '../src/charts/spiral-time-chart.js';
 
 const expect = require('chai').expect;
 const moment = require('moment');
+const jsdom = require('jsdom');
 
 describe('Foo Text', ()=>{
 	const originalData = [
@@ -9,12 +10,16 @@ describe('Foo Text', ()=>{
 
 	let chart;
 
-	beforeEach(()=>{
-		const elCanvas = document.createElement('canvas');
+	beforeEach((done)=>{
+		jsdom.env('<canvas></canvas>', (error, window)=>{
+			const elCanvas = window.document.createElement('canvas');
 
-		chart = new SpiralTimeChart({
-			data: originalData,
-			el: elCanvas,
+			chart = new SpiralTimeChart({
+				data: originalData,
+				el: elCanvas,
+			});
+
+			done();
 		});
 	});
 
