@@ -1,8 +1,11 @@
 {
   "private": "true",
   "scripts": {
+    "build": "npm run test && npm run js && echo Built!",
     "js": "browserify -t [ babelify --presets [ es2015 ] ] src/main.js -o out/app.js",
-    "start": "watchify -v -t [ babelify --presets [ es2015 ] ] src/main.js -o 'exorcist out/app.js.map > out/app.js' -d"
+    "start": "npm run build -s; echo Watching...; npm run watch -s",
+    "test": "mochify --transform [ babelify --presets [ es2015 ] ]",
+    "watch": "chokidar --silent src/**/* ./test/**/* -c 'echo ! && npm run build'"
   },
   "dependencies": {
     "babel-preset-es2015": "^6.22.0",
@@ -13,8 +16,10 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "chokidar-cli": "^1.2.0",
     "exorcist": "^0.4.0",
     "mocha": "^3.2.0",
+    "mochify": "^3.1.0",
     "watchify": "^3.9.0"
   }
 }
