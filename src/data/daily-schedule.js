@@ -1,4 +1,4 @@
-module.exports = [
+export default [
 	{
 		datetime: '2017-03-10 09:00',
 		type: 'life',

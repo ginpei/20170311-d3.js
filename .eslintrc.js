@@ -3,13 +3,22 @@ module.exports = {
 		"browser": true,
 		"es6": true
 	},
+	"parserOptions": {
+		"sourceType": "module",
+	},
 	"extends": "eslint:recommended",
 	"rules": {
 		"accessor-pairs": "error",
 		"array-bracket-spacing": "error",
 		"array-callback-return": "error",
 		"arrow-body-style": "error",
-		"arrow-parens": "error",
+		"arrow-parens": [
+			"error",
+			"as-needed",
+			{
+				"requireForBlockBody": true
+			}
+		],
 		"arrow-spacing": [
 			"error",
 			{
@@ -76,6 +85,7 @@ module.exports = {
 			{
 				"exceptions": [
 					"$",
+					"d",
 					"i",
 					"l",
 					"x",
@@ -168,7 +178,6 @@ module.exports = {
 		"no-restricted-imports": "error",
 		"no-restricted-modules": "error",
 		"no-restricted-syntax": "error",
-		"no-return-assign": "error",
 		"no-script-url": "error",
 		"no-self-compare": "error",
 		"no-sequences": "error",

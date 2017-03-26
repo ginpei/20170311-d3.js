@@ -1,12 +1,13 @@
+import * as d3 from 'd3';
+import * as monthlyValues from './data/monthly-values.js';
 import SimpleLineChart from './charts/simple-line-chart.js';
 import SpiralTimeChart from './charts/spiral-time-chart.js';
 import dailySchedule from './data/daily-schedule.js';
 
-const d3 = require('d3');
 document.querySelector('#js-version').textContent = `v${d3.version}`;
 
 new SimpleLineChart({
-	data: require('./data/monthly-values.js').default,
+	data: monthlyValues,
 	selector: '#simple-line-chart',
 }).start();
 

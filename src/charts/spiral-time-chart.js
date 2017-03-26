@@ -1,7 +1,6 @@
+import * as d3 from 'd3';
 import ChartBase from './chart-base.js';
-
-const d3 = require('d3');
-const moment = require('moment');
+import moment from 'moment';
 
 export default class SpiralTimeChart extends ChartBase {
 	constructor(options) {
@@ -19,7 +18,7 @@ export default class SpiralTimeChart extends ChartBase {
 	 * @returns {Array} data Original data.
 	 */
 	convertDate(data) {
-		data.forEach(d=>d.date = new moment(d.datetime));
+		data.forEach(d=>d.date=moment(d.datetime));
 		return data;
 	}
 
@@ -47,13 +46,13 @@ export default class SpiralTimeChart extends ChartBase {
 
 			const wholeDegree = fullDegree * rollings;
 
-			return (d, index)=> {
+			return (d, index)=>{
 				const progress = (dataLength - (index + 1)) / dataLength;
 				const radius = center * progress;
-				const degree = wholeDegree * progress + offsetDegree;
-				return center + radius * Math[funcName](degree);
+				const degree = (wholeDegree * progress) + offsetDegree;
+				return center + (radius * Math[funcName](degree));
 			};
-		}
+		};
 
 		return d3.line()
 			.x(spiralPositionF('cos'))
@@ -70,7 +69,7 @@ export default class SpiralTimeChart extends ChartBase {
 	countDates(data) {
 		let min = data[0].date;
 		let max = data[0].date;
-		data.forEach(d=>{
+		data.forEach((d)=>{
 			if (d.date < min) {
 				min = d.date;
 			}

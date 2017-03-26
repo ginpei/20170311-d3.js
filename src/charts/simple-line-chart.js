@@ -1,12 +1,7 @@
+import * as d3 from 'd3';
 import ChartBase from './chart-base.js';
 
-const d3 = require('d3');
-
 export default class SimpleLineChart extends ChartBase {
-	constructor(options) {
-		super(options);
-	}
-
 	start() {
 		const line = this.generateLine(this.data, this.width, this.height);
 		const svg = this.generateSvg(this.element, this.width, this.height);
